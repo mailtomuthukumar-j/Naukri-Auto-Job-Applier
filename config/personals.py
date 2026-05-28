@@ -1,0 +1,15 @@
+# Personal details — filled automatically by the web UI (app.py)
+
+first_name = ""
+middle_name = ""
+last_name = ""
+phone_number = ""
+current_city = ""
+street = ""
+state = ""
+zipcode = ""
+country = "India"
+ethnicity = "Decline"
+gender = "Male"
+disability_status = "No"
+veteran_status = "No"
