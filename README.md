@@ -149,44 +149,214 @@ failed_file_name = "all excels/all_failed_applications_history.csv"
 
 ---
 
-## How to Use - Step by Step
+## How to Run the Complete Project
 
-### Web UI Method (Easiest)
+There are **3 ways** to run this project:
 
-1. **Install Python 3.8+** and Google Chrome
+---
 
-2. **Install required packages:**
-   ```
-   pip install flask flask-cors selenium pyautogui undetected-chromedriver
-   ```
+### Method 1: Web UI (Easiest - Recommended)
 
-3. **Add your resume PDF** at:
-   ```
-   all resumes/default/resume.pdf
-   ```
+This method gives you a browser interface with tabs to fill your details and start the bot.
 
-4. **Run the web server:**
-   ```
-   python app.py
-   ```
+#### Step 1: Install Prerequisites
+```bash
+# Install Python packages
+pip install flask flask-cors selenium pyautogui undetected-chromedriver webdriver-manager setuptools
+```
 
-5. **Open your browser** and go to:
-   ```
-   http://localhost:5000
-   ```
+> **Windows users**: You can also run `setup/windows-setup.bat` (double-click) or `setup/windows-setup.ps1` (PowerShell) to auto-install everything.
+>
+> **Linux/Mac users**: Run `bash setup/setup.sh` to auto-install.
 
-6. **Fill all 4 tabs in the Web UI:**
-   - Tab 1 (Login): Enter Naukri email + password
-   - Tab 2 (Profile): Enter name, phone, city, experience, salary, cover letter
-   - Tab 3 (Job Search): Enter job titles, location, filters, bad words
-   - Tab 4 (Launch): Toggle settings, then click "Apply for Jobs"
+#### Step 2: Add Your Resume
+Place your resume PDF file at this exact location:
+```
+all resumes/default/resume.pdf
+```
+The bot uploads this resume when applying to jobs.
 
-7. **Watch the bot** automatically search and apply to jobs on Naukri.com
+#### Step 3: Start the Web Server
+```bash
+python app.py
+```
+You will see output like:
+```
+* Running on http://127.0.0.1:5000
+```
 
-### Direct Bot Method (Advanced)
+#### Step 4: Open the Web UI
+Open your browser and go to:
+```
+http://localhost:5000
+```
 
-1. Edit all config files in `config/` folder manually
-2. Run: `python runNaukriBot.py`
+#### Step 5: Fill the 5 Tabs
+
+**Tab 1 - Login (🔐):**
+| Field | What to enter |
+|-------|--------------|
+| Naukri Email | Your Naukri.com registered email address |
+| Naukri Password | Your Naukri.com account password |
+
+**Tab 2 - Profile (👤):**
+| Field | What to enter |
+|-------|--------------|
+| First Name | Your first name (e.g., Muthu Kumar) |
+| Last Name | Your last name (e.g., J) |
+| Phone Number | Your 10-digit mobile number |
+| Current City | City you currently live in (e.g., Sivakasi) |
+| State | Your state (e.g., Tamil Nadu) |
+| Zipcode | PIN code (e.g., 626123) |
+| Gender | Select from dropdown |
+| Country | India (default) |
+| Years of Experience | Total work experience in years |
+| Current Experience | Current experience level in years |
+| Desired Salary | Expected annual salary in INR (e.g., 400000) |
+| Notice Period | Notice period in days (0 if none) |
+| Recent Employer | Current/last company name (write "Fresher" if none) |
+| Portfolio Website | Your personal website URL (optional) |
+| LinkedIn Profile URL | Full LinkedIn profile URL (optional) |
+| Naukri Headline | Your professional headline (e.g., "Fresher Full Stack Developer") |
+| Cover Letter | Brief introduction about yourself |
+
+**Tab 3 - Job Search (🔍):**
+| Field | What to enter |
+|-------|--------------|
+| Job Titles | One job title per line (e.g., Full Stack Developer, React Developer, etc.) |
+| Search Location | Location filter (e.g., India, Chennai, Bangalore) |
+| Date Posted | Select: Last 1 day / Last 7 days (default) / Last 15 days / Last 30 days |
+| Naukri Experience Filter | Select your experience level for Naukri search filter |
+| Experience Level | Check relevant boxes: Internship, Entry level, Associate, Mid-Senior |
+| Job Type | Check relevant boxes: Full-time, Internship, Contract, Part-time |
+| Skip/Bad Words | Comma-separated words - jobs with these words in description will be skipped |
+
+**Tab 4 - Launch (🚀):**
+| Setting | Description |
+|---------|-------------|
+| Pause Before Submit | Bot pauses before each submission so you can review |
+| Run in Background | Hide Chrome window (faster but you can't intervene) |
+| Stealth Mode | Bypass anti-bot detection (recommended to keep ON) |
+
+Then click **"Apply for Jobs"** button to start.
+
+**Tab 5 - History (📋):**
+Shows all previously applied jobs from the CSV history file.
+
+#### Step 6: Watch the Bot Work
+- The bot opens Chrome, logs into Naukri.com
+- Searches each job title one by one
+- Opens job listings, checks descriptions
+- Skips jobs with bad words or high experience requirements
+- Clicks Apply, fills forms, uploads resume, submits
+- Shows live logs in the Web UI
+- Saves results to CSV files
+
+---
+
+### Method 2: Direct Bot (Advanced - No Web UI)
+
+Use this if you want to run the bot directly without the Flask web interface.
+
+#### Step 1: Install Packages
+```bash
+pip install selenium pyautogui undetected-chromedriver webdriver-manager setuptools
+```
+
+#### Step 2: Manually Edit ALL Config Files
+
+You must edit these 5 files in the `config/` folder:
+
+**a) `config/secrets.py`** - Your Naukri login:
+```python
+username = "your_email@example.com"    # ← Change this
+password = "your_naukri_password"       # ← Change this
+```
+
+**b) `config/personals.py`** - Your personal details:
+```python
+first_name = "Muthu Kumar"    # ← Change this
+last_name = "J"               # ← Change this
+phone_number = "9042160283"   # ← Change this
+current_city = "Sivakasi"     # ← Change this
+state = "Tamil Nadu"          # ← Change this
+zipcode = "626123"            # ← Change this
+```
+
+**c) `config/search.py`** - Job search terms and filters:
+```python
+search_terms = [
+    "Full Stack Developer",    # ← Add your job titles
+    "React Developer",
+]
+search_location = "India"      # ← Change this
+```
+
+**d) `config/questions.py`** - Application form answers:
+```python
+years_of_experience = "1"       # ← Change this
+desired_salary = 400000         # ← Change this
+notice_period = 0               # ← Change this
+cover_letter = "..."            # ← Change this
+```
+
+**e) `config/settings.py`** - Bot behavior (usually keep defaults):
+```python
+stealth_mode = True            # Recommended to keep True
+run_in_background = False      # Set True to hide browser
+```
+
+#### Step 3: Add Resume
+```
+all resumes/default/resume.pdf    # ← Place your PDF here
+```
+
+#### Step 4: Run the Bot
+```bash
+python runNaukriBot.py
+```
+The bot will:
+1. Open Chrome browser
+2. Go to Naukri.com and log in
+3. Search each job title
+4. Apply to jobs automatically
+5. Save history to CSV files in `all excels/`
+6. Show a summary popup when done
+
+---
+
+### Method 3: Setup Scripts (One-Click Automation)
+
+For quick installation without typing pip commands manually:
+
+**Windows (CMD):**
+```
+Double-click setup/windows-setup.bat
+```
+Or run in terminal:
+```
+setup\windows-setup.bat
+```
+
+**Windows (PowerShell):**
+```
+Right-click setup/windows-setup.ps1 → Run with PowerShell
+```
+Or run in terminal:
+```
+powershell -ExecutionPolicy Bypass -File setup\windows-setup.ps1
+```
+
+**Linux / Mac:**
+```bash
+bash setup/setup.sh
+```
+
+These scripts automatically:
+- Check if Python is installed
+- Install all required pip packages
+- Create necessary directories
+- Print instructions for next steps
 
 ---
 
@@ -257,7 +427,15 @@ IMPORTANT:
 
 ### Step 6: Place your resume PDF at `all resumes/default/resume.pdf`
 
-### Step 7: Run `python app.py` and open `http://localhost:5000`
+### Step 7: Run the project (choose ONE method)
+```
+# Web UI method (easier):
+python app.py
+# Then open http://localhost:5000 in browser
+
+# OR Direct Bot method (no browser needed):
+python runNaukriBot.py
+```
 
 ---
 

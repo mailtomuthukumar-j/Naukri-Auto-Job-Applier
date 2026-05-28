@@ -1,8 +1,8 @@
 '''
-Author:     Sai Vignesh Golla
+Author:     Muthukumar
 LinkedIn:   https://www.linkedin.com/in/saivigneshgolla/
 
-Copyright (C) 2024 Sai Vignesh Golla
+Copyright (C) 2024 Muthukumar
 
 License:    GNU Affero General Public License
             https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -81,6 +81,6 @@ As an independent developer, I pour my heart and soul into creating tools like t
 Your support, whether through donations big or small or simply spreading the word, means the world to me and helps keep this project alive and thriving.
 
 Gratefully yours 🙏🏻,
-Sai Vignesh Golla
+Muthukumar
 '''
 ############################################################################################################
